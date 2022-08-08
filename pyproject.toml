@@ -20,6 +20,9 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
+dependencies = [
+  'lifehacks.metaclasses',
+]
 
 [project.urls]
 "Homepage" = "https://mightbesimon.com"
