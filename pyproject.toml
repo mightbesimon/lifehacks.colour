@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lifehacks.colour"
+version = "0.99.99"
+authors = [
+  { name="mightbesimon" },
+]
+description = "hsla, rgba and colour palettes"
+readme = "README.md"
+license = { file="LICENSE.md" }
+requires-python = ">=3.7"
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+]
+
+[project.urls]
+"Homepage" = "https://mightbesimon.com"
+"Documentation" = "https://github.com/mightbesimon/lifehacks.colour"
+"Source Code" = "https://github.com/mightbesimon/lifehacks.colour"
