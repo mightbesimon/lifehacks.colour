@@ -26,5 +26,5 @@ dependencies = [
 
 [project.urls]
 'Homepage' = 'https://mightbesimon.com'
-'Documentation' = 'https://github.com/mightbesimon/lifehacks.colour'
 'Source Code' = 'https://github.com/mightbesimon/lifehacks.colour'
+'Documentation' = 'https://github.com/mightbesimon/lifehacks.colour/#readme'

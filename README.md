@@ -3,11 +3,12 @@
 ## Structure
 
 ```plaintext
-📦lifehacks.colour
+📦 lifehacks.colour
 ├── Colour
 ├── hsla
 ├── rgba
-└── 📦palette
+│
+└── 📦 palette
     ├── Apple
     └── Mariana
 ```

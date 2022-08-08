@@ -19,12 +19,12 @@ explicit or implicit permission.
 #######                lifehacks.colours                 #######
 ################################################################
 
-📦lifehacks.colour
+📦 lifehacks.colour
 ├── Colour
 ├── hsla
 ├── rgba
 │
-└── 📦palette
+└── 📦 palette
     ├── Apple
     └── Mariana
 ''')
