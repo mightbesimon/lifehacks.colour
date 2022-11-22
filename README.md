@@ -1,4 +1,4 @@
-# lifehacks.colour [![version](https://img.shields.io/pypi/v/lifehacks?label=)](https://pypi.org/project/lifehacks/)
+# lifehacks.colour [![version](https://img.shields.io/pypi/v/lifehacks.colour?label=)](https://pypi.org/project/lifehacks-colour/)
 
 [![sponsor](https://img.shields.io/github/sponsors/mightbesimon?color=red&label=Sponsor&logo=github)](https://github.com/sponsors/mightbesimon)
 [![publish](https://github.com/mightbesimon/lifehacks.colour/actions/workflows/publish.yml/badge.svg)](https://github.com/mightbesimon/lifehacks.colour)
