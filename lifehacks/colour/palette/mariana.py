@@ -7,13 +7,12 @@
 '''
 
 from lifehacks.metaclasses import enum
-from .. import hsla, rgba
+from .. import Colour, hsla, rgba
 
 ################################################################
 #######                   base palette                   #######
 ################################################################
-@enum
-class Palette:
+class Palette(metaclass=enum[Colour]):
 	BLACK  = rgba(  0,   0,   0)
 	WHITE  = rgba(255, 255, 255)
 	SHADOW = BLACK.clone(a=50)

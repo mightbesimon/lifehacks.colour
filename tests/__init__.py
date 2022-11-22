@@ -6,21 +6,22 @@
 	explicit or implicit permission.
 '''
 
-from decimal import Decimal
+from typing import Optional
+from unittest import TestCase
 from lifehacks.colour import hsla, rgba
 
 
 ################################################################
 #######                   base classes                   #######
 ################################################################
-class AssertColour:
+class AssertColour(TestCase):
 
 	def assert_hsla(self,
 		colour:hsla,
-		h:int,
-		s:Decimal,
-		l:Decimal,
-		a:Decimal
+		h:Optional[float],
+		s:Optional[float],
+		l:Optional[float],
+		a:Optional[float],
 	) -> None:
 		self.assertEqual(colour.h, h)
 		self.assertEqual(colour.s, s)
@@ -29,10 +30,10 @@ class AssertColour:
 
 	def assert_rgba(self,
 		colour:rgba,
-		r:int,
-		g:Decimal,
-		b:Decimal,
-		a:Decimal
+		r:Optional[ int ],
+		g:Optional[ int ],
+		b:Optional[ int ],
+		a:Optional[float],
 	) -> None:
 		self.assertEqual(colour.r, r)
 		self.assertEqual(colour.g, g)

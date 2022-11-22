@@ -23,9 +23,6 @@ class TestRGBA(AssertColour, TestCase):
 		self.assertIsInstance(c, rgba)
 		self.assert_rgba(c, 10, 10, 10, None)
 
-		c = rgba(g=50, a=0.5)
-		self.assert_rgba(c, None, 50, None, 0.5)
-
 
 	def test_call(self) -> None:
 		c1 = rgba(10, 10, 10)

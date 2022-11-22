@@ -9,8 +9,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from decimal import Decimal
-from typing import Tuple
+from typing import Optional
 
 
 __all__ = ['Colour', 'hsla', 'rgba']
@@ -46,40 +45,40 @@ class hsla(Colour):
 		optional `l`: lightness `[0, 100]` or `[0.0, 1.0]`
 		optional `a`: alpha `[0, 100]` or `[0.0, 1.0]`
 	'''
-	h: int     = None	# hue        [0  , 359]
-	s: Decimal = None	# saturation [0.0, 1.0]
-	l: Decimal = None	# lightness  [0.0, 1.0]
-	a: Decimal = None	# alpha      [0.0, 1.0]
+	h: Optional[float] = None	# hue        [0  , 359]
+	s: Optional[float] = None	# saturation [0.0, 1.0]
+	l: Optional[float] = None	# lightness  [0.0, 1.0]
+	a: Optional[float] = None	# alpha      [0.0, 1.0]
 
 	def __init__(self,
-		h:int=None,
-		s:Decimal=None,
-		l:Decimal=None,
-		a:Decimal=None,
+		h:Optional[float]=None,
+		s:Optional[float]=None,
+		l:Optional[float]=None,
+		a:Optional[float]=None,
 	) -> None:
 		'''	optional `h`: hue `[0, 359]`
 			optional `s`: saturation `[0, 100]` or `[0.0, 1.0]`
 			optional `l`: lightness `[0, 100]` or `[0.0, 1.0]`
 			optional `a`: alpha `[0, 100]` or `[0.0, 1.0]`
 		'''
-		if h and not 0<=h<=359: raise ValueError(f'hue {h} not in range [0, 359]')
-		if s and not 0<=s<=100: raise ValueError(f'saturation {s} not in range [0, 100] or [0.0, 1.0]')
-		if l and not 0<=l<=100: raise ValueError(f'lightness {l} not in range [0, 100] or [0.0, 1.0]')
-		if a and not 0<=a<=100: raise ValueError(f'alpha {a} not in range [0, 100] or [0.0, 1.0]')
+		if h and not 0<=h< 360: raise ValueError(f'hue: {h} is not in range [0, 359]')
+		if s and not 0<=s<=100: raise ValueError(f'saturation: {s} is not in range [0, 100] or [0.0, 1.0]')
+		if l and not 0<=l<=100: raise ValueError(f'lightness: {l} is not in range [0, 100] or [0.0, 1.0]')
+		if a and not 0<=a<=100: raise ValueError(f'alpha: {a} is not in range [0, 100] or [0.0, 1.0]')
 
 		if h is not None: self.h = h
 		if s is not None: self.s = s/100 if s>1 else s
 		if l is not None: self.l = l/100 if l>1 else l
 		if a is not None: self.a = a/100 if a>1 else a
 
-	def __call__(self, **kwargs) -> hsla:
+	def __call__(self, **kwargs:float) -> hsla:
 		return self.clone(**kwargs)
 
 	def clone(self,
-		h:int=None,
-		s:Decimal=None,
-		l:Decimal=None,
-		a:Decimal=None,
+		h:Optional[float]=None,
+		s:Optional[float]=None,
+		l:Optional[float]=None,
+		a:Optional[float]=None,
 	) -> hsla:
 		'''	create a new instance of `hsla`,
 			optionally modify value fields
@@ -98,8 +97,11 @@ class hsla(Colour):
 	def to_rgba(self) -> rgba:
 		'''	[formula](https://www.rapidtables.com/convert/color/hsl-to-rgb.html)
 		'''
+		if self.h is None or self.s is None or self.l is None:
+			raise Exception() # todo
+
 		C = (1 - abs(2*self.l - 1)) * self.s
-		X = C * (1 - abs(self.h/60%2 - 1))
+		X = C * (1 - abs(self.h/60 % 2 - 1))
 		m = self.l - C/2
 
 		table = {
@@ -111,16 +113,17 @@ class hsla(Colour):
 			(300, 360): (C, 0, X),
 		}
 
-		for key, value in table.items():
-			if not key[0]<=self.h<key[1]: continue
-			r_, g_, b_ = value
+		r_, g_, b_ = [ values
+			for bounds, values in table.items()
+			if bounds[0]<=self.h<bounds[1]
+		][0]
 
-			return rgba(
-				r=round((r_+m) * 255),
-				g=round((g_+m) * 255),
-				b=round((b_+m) * 255),
-				a=self.a,
-			)
+		return rgba(
+			r=round((r_+m) * 255),
+			g=round((g_+m) * 255),
+			b=round((b_+m) * 255),
+			a=self.a,
+		)
 
 @dataclass
 class rgba(Colour):
@@ -131,26 +134,26 @@ class rgba(Colour):
 		optional `b`: blue `[0, 255]`
 		optional `a`: alpha `[0, 100]` or `[0.0, 1.0]`
 	'''
-	r: int     = None	# red   [0  , 255]
-	g: int     = None	# green [0  , 255]
-	b: int     = None	# blue  [0  , 255]
-	a: Decimal = None	# alpha [0.0, 1.0]
+	r: int                   	# red   [0  , 255]
+	g: int                   	# green [0  , 255]
+	b: int                   	# blue  [0  , 255]
+	a: Optional[float] = None	# alpha [0.0, 1.0]
 
 	def __init__(self,
-		r:int=None,
-		g:int=None,
-		b:int=None,
-		a:Decimal=None,
+		r:int,
+		g:int,
+		b:int,
+		a:Optional[float]=None,
 	) -> None:
 		'''	optional `r`: red `[0, 255]`
 			optional `g`: green `[0, 255]`
 			optional `b`: blue `[0, 255]`
 			optional `a`: alpha `[0, 100]` or `[0.0, 1.0]`
 		'''
-		if r and not 0<=r<=255: raise ValueError(f'red {r} not in range [0, 255]')
-		if g and not 0<=g<=255: raise ValueError(f'green {g} not in range [0, 255]')
-		if b and not 0<=b<=255: raise ValueError(f'blue {b} not in range [0, 255]')
-		if a and not 0<=a<=100: raise ValueError(f'alpha {a} not in range [0, 100] or [0.0, 1.0]')
+		if r and not 0<=r<=255: raise ValueError(f'red: {r} is not in range [0, 255]')
+		if g and not 0<=g<=255: raise ValueError(f'green: {g} is not in range [0, 255]')
+		if b and not 0<=b<=255: raise ValueError(f'blue: {b} is not in range [0, 255]')
+		if a and not 0<=a<=100: raise ValueError(f'alpha: {a} is not in range [0, 100] or [0.0, 1.0]')
 
 		if r is not None: self.r = r
 		if g is not None: self.g = g
@@ -158,10 +161,10 @@ class rgba(Colour):
 		if a is not None: self.a = a/100 if a>1 else a
 
 	def clone(self,
-		r:int=None,
-		g:int=None,
-		b:int=None,
-		a:Decimal=None,
+		r:Optional[ int ]=None,
+		g:Optional[ int ]=None,
+		b:Optional[ int ]=None,
+		a:Optional[float]=None,
 	) -> rgba:
 		'''	create a new instance of `rgba`,
 			optionally modify value fields
@@ -173,7 +176,7 @@ class rgba(Colour):
 			a=a if a is not None else self.a,
 		)
 
-	def normalise(self) -> Tuple[float, float, float]:
+	def normalise(self) -> tuple[float, float, float]:
 		'''	normalise to `(r, g, b)` between `0.0` and `1.0`
 		'''
 		return (self.r/255, self.g/255, self.b/255)
@@ -191,10 +194,10 @@ class rgba(Colour):
 			60 * ((g_-b_)/delta % 6) if C_max==r_ else
 			60 * ((b_-r_)/delta + 2) if C_max==g_ else
 			60 * ((r_-g_)/delta + 4) if C_max==b_ else
-			None
+			0
 		)
 		L = round((C_max+C_min) / 2, 2)
-		S = round(delta / (1 - abs(2*L - 1)), 2)
+		S = round(delta / (1 - abs(2*L - 1)), 2) if (1 - abs(2*L - 1)) else 0
 
 		return hsla(H, S, L, self.a)
 
