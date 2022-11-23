@@ -10,14 +10,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from . import Colour, rgba
+from . import abstract, rgba
 
 
 ################################################################
 #######                   dataclasses                    #######
 ################################################################
 @dataclass
-class hsla(Colour):
+class hsla(abstract.Colour):
 
 	h: Optional[float] = None	# hue        [0  , 359]
 	s: Optional[float] = None	# saturation [0.0, 1.0]

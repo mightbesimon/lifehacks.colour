@@ -10,14 +10,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from . import Colour, hsla
+from . import abstract, hsla
 
 
 ################################################################
 #######                   dataclasses                    #######
 ################################################################
 @dataclass
-class rgba(Colour):
+class rgba(abstract.Colour):
 
 	r: int                   	# red   [0  , 255]
 	g: int                   	# green [0  , 255]
