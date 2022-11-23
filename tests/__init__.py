@@ -12,7 +12,7 @@ from lifehacks.colour import hsla, rgba
 
 
 ################################################################
-#######                   base classes                   #######
+#######                 base test class                  #######
 ################################################################
 class AssertColour(TestCase):
 
