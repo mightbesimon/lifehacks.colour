@@ -17,20 +17,20 @@ class Colour(ABC):
 	'''	abstract base `Colour` class
 	'''
 	@abstractmethod
-	def to_hsla(self) -> _hsla.hsla:
+	def to_hsla(self) -> hsla:
 		raise NotImplemented
 
 	@abstractmethod
-	def to_rgba(self) -> _rgba.rgba:
+	def to_rgba(self) -> rgba:
 		raise NotImplemented
 
 	def to_hex(self) -> str:
 		c = self.to_rgba()
-		alpha = f'{round(c.a*255):02x}' if c.a is not None and c.a!=1 else ''
-		return f'#{c.r:02x}{c.g:02x}{c.b:02x}{alpha}'
+		alpha = f'{round(c.a*255):02x}' if c.a is not None and c.a!=1 else ''  # type: ignore
+		return f'#{c.r:02x}{c.g:02x}{c.b:02x}{alpha}'  # type: ignore
 
 
-from ._hsla import hsla
-from ._rgba import rgba
+from .hsla import hsla
+from .rgba import rgba
 
 __all__ = ['Colour', 'hsla', 'rgba']

@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from . import Colour, _rgba  # type: ignore
+from . import Colour, rgba
 
 
 ################################################################
@@ -59,11 +59,11 @@ class hsla(Colour):
 			a=a if a is not None else self.a,
 		)
 
-	def to_hsla(self) -> _hsla.hsla:  # type: ignore
+	def to_hsla(self) -> hsla:  # type: ignore
 		'''return self'''
 		return self
 
-	def to_rgba(self) -> _rgba.rgba:
+	def to_rgba(self) -> rgba:
 		'''	[formula](https://www.rapidtables.com/convert/color/hsl-to-rgb.html)
 		'''
 		if self.h is None or self.s is None or self.l is None:
@@ -74,22 +74,18 @@ class hsla(Colour):
 		m = self.l - C/2
 
 		table = {
-			(0, 60): (C, X, 0),
-			(60, 120): (X, C, 0),
+			(  0,  60): (C, X, 0),
+			( 60, 120): (X, C, 0),
 			(120, 180): (0, C, X),
 			(180, 240): (0, X, C),
 			(240, 300): (X, 0, C),
 			(300, 360): (C, 0, X),
 		}
 
-		r_, g_, b_ = [ values
+		r, g, b = [ round((val+m) * 255)
 			for bounds, values in table.items()
 			if bounds[0]<=self.h<bounds[1]
-		][0]
+			for val in values
+		]
 
-		return _rgba.rgba(
-			r=round((r_+m) * 255),
-			g=round((g_+m) * 255),
-			b=round((b_+m) * 255),
-			a=self.a,
-		)
+		return rgba.rgba(r, g, b, self.a)  # type: ignore

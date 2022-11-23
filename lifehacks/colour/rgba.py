@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from . import Colour, _hsla  # type: ignore
+from . import Colour, hsla
 
 
 ################################################################
@@ -25,9 +25,7 @@ class rgba(Colour):
 	a: Optional[float] = None	# alpha [0.0, 1.0]
 
 	def __init__(self,
-		r:int,
-		g:int,
-		b:int,
+		r:int, g:int, b:int,
 		a:Optional[float]=None,
 	) -> None:
 		if r and not 0<=r<=255: raise ValueError(f'red: {r} is not in range [0, 255]')
@@ -61,7 +59,7 @@ class rgba(Colour):
 		'''
 		return (self.r/255, self.g/255, self.b/255)
 
-	def to_hsla(self) -> _hsla.hsla:
+	def to_hsla(self) -> hsla:
 		'''	[formula](https://www.rapidtables.com/convert/color/rgb-to-hsl.html)
 		'''
 		r_, g_, b_ = self.normalise()
@@ -79,8 +77,8 @@ class rgba(Colour):
 		L = round((C_max+C_min) / 2, 2)
 		S = round(delta / (1 - abs(2*L - 1)), 2) if (1 - abs(2*L - 1)) else 0
 
-		return _hsla.hsla(H, S, L, self.a)
+		return hsla.hsla(H, S, L, self.a)  # type: ignore
 
-	def to_rgba(self) -> _rgba.rgba:  # type: ignore
+	def to_rgba(self) -> rgba:  # type: ignore
 		'''return self'''
 		return self

@@ -31,9 +31,7 @@ class rgba(Colour):
 	a: Optional[float] = None	# alpha [0.0, 1.0]
 
 	def __init__(self,
-		r:int,
-		g:int,
-		b:int,
+		r:int, g:int, b:int,
 		a:Optional[float]=...,
 	) -> None:
 		'''	optional `r`: red `[0, 255]`
